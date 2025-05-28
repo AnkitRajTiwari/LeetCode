@@ -10,3 +10,7 @@ class Solution {
         return Math.abs(esum-asum);
     }
 }
+// first calculate the total sum by n*(n+1)/2
+// then loop and calculate the actual sum esum by esum+=nums[i]
+// int missing=Math.abs(totalsum-esum)
+// hence the diff between the total sum and the actual sum gives the missing number 
