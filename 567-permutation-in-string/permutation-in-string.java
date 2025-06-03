@@ -1,29 +1,36 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        int[] first = new int[26];
-        int[] second = new int[26];
-      for (int i = 0; i < s1.length(); i++)
-      {
-         char c = s1.charAt(i);
-         first[c - 'a'] += 1;
-       }
+        // Base condition: if s1 is longer than s2, impossible to match
+        if (s1.length() > s2.length()) return false;
 
-        int window = s1.length() - 1;
-        for (int i = 0; i < s2.length(); i++) {
-            second[s2.charAt(i) - 'a'] += 1;
+        // Frequency arrays for characters in s1 and current window in s2
+        int[] s1Freq = new int[26];
+        int[] s2Freq = new int[26];
 
-            if (i >= window) {
-                if (match(first, second)) return true;
-                second[s2.charAt(i - window) - 'a'] -= 1;
-            }
+        // Fill frequency array for s1
+        for (int i = 0; i < s1.length(); i++) {
+            s1Freq[s1.charAt(i) - 'a']++;
+            s2Freq[s2.charAt(i) - 'a']++;
         }
 
-        return false;
+        // Sliding window: compare each window of length s1.length()
+        for (int i = s1.length(); i < s2.length(); i++) {
+            // Check if current window matches the frequency of s1
+            if (matches(s1Freq, s2Freq)) return true;
+
+            // Slide window: remove leftmost char, add rightmost char
+            s2Freq[s2.charAt(i) - 'a']++;
+            s2Freq[s2.charAt(i - s1.length()) - 'a']--;
+        }
+
+        // Check for the last window
+        return matches(s1Freq, s2Freq);
     }
 
-    private boolean match(int[] first, int[] second) {
+    // Helper function to check if two frequency arrays are equal
+    private boolean matches(int[] arr1, int[] arr2) {
         for (int i = 0; i < 26; i++) {
-            if (first[i] != second[i]) return false;
+            if (arr1[i] != arr2[i]) return false;
         }
         return true;
     }
