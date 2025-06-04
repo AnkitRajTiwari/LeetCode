@@ -4,8 +4,8 @@ public void setZeroes(int[][] matrix) {
     for(int i = 0; i < matrix.length; i++) {
         for(int j = 0; j < matrix[0].length; j++) {
             if(matrix[i][j] == 0) {
-                if(i == 0) fr = true;
-                if(j == 0) fc = true;
+                if(i == 0) fc = true;
+                if(j == 0) fr = true;
                 matrix[0][j] = 0;
                 matrix[i][0] = 0;
             }
@@ -17,14 +17,16 @@ public void setZeroes(int[][] matrix) {
                 matrix[i][j] = 0;
         }}
     }
-    if(fr) {
+    if(fc) {
         for(int j = 0; j < matrix[0].length; j++) {
             matrix[0][j] = 0;
         }
     }
-    if(fc) {
+    if(fr) {
         for(int i = 0; i < matrix.length; i++) {
             matrix[i][0] = 0;
         }
     }
 }}  
+
+// for setting the matrix zero 
