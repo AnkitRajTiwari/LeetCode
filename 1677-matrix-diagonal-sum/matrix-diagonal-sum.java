@@ -1,18 +1,21 @@
 class Solution {
     public int diagonalSum(int[][] mat) {
+   int n = mat.length;
         int sum = 0;
-        int n = mat.length;
-        int i =0, j=0;
-        int l =n-1;
-        while(i<n){
-            sum+=mat[i][j];
-            sum+=mat[i][l];
-            i++;
-            j++;
-            l--;
+
+        for (int i = 0; i < n; i++) {
+            // Add primary diagonal element
+            sum += mat[i][i];
+
+            // Add secondary diagonal element
+            sum += mat[i][n - 1 - i];
         }
-        if (n == 1) return mat[0][0];
-        if (n%2 != 0)return sum - mat[n/2][n/2];
-        else return sum;
+
+        // If matrix has odd dimensions, subtract the middle element once
+        if (n % 2 == 1) {
+            sum -= mat[n / 2][n / 2];
+        }
+
+        return sum;
     }
 }
