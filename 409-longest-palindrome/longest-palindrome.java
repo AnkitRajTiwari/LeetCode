@@ -1,24 +1,24 @@
-class Solution {
-    public int longestPalindrome(String s) {
-        boolean[] arr = new boolean[123];   // a-z ASCII value is 65 to 90 && A-Z ASCII value is 97 to 122
-        int i = 0;
-        int ans = 0;
-        while(i<s.length()){
-            if(arr[(int)(s.charAt(i))]==false){    // odd time charactor occur & note down into the array
-                arr[(int)(s.charAt(i))] = true;    // note down into the array
-            }else{
-                arr[(int)(s.charAt(i))] = false;    //even time charactor occur & ans+=2
-                ans+=2;
-            }
-            i++;
+class Solution
+ {
+    public int longestPalindrome(String s) 
+    {
+     HashMap<Character,Integer> map=new HashMap<>();
+      int oddcount=0;
+      for(char c:s.toCharArray())
+      {
+        map.put(c,map.getOrDefault(c,0)+1);
+        if(map.get(c)%2==1){
+            oddcount++;
         }
-
-        //after while loop if any odd occur reamining then longest palindrome is ans+1
-        for(i = 65; i<arr.length ; i++){
-            if(arr[i])return ans+1;
+        else
+        {
+            oddcount--;
         }
-
-        //otherwise longest palindrome is ans
-        return ans;
-    }
+      }
+      if(oddcount>1)
+      {
+        return s.length()-oddcount+1;
+      }
+        return s.length();
+      }
 }
