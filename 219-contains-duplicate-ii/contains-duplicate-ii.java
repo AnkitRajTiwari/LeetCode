@@ -1,15 +1,25 @@
+// Time Complexity : O(n)
 class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-        // since here we will use the hashmap
-       HashMap<Integer,Integer> map=new HashMap<>();
-       // loop through  the array
-       for(int i=0;i<nums.length;i++){
-        // and then check  that map.contains nums and i -map.get(nums[i])
-        if(map.containsKey(nums[i]) && i-map.get(nums[i])<=k ){
-            return true ;
+        // Base case...
+        if(nums == null || nums.length < 2 || k == 0)
+            return false;
+        int i = 0;
+        // Create a Hash Set for storing previous of k elements...
+        HashSet<Integer> hset = new HashSet<Integer>();
+        // Traverse for all elements of the given array in a for loop...
+        for(int j = 0; j < nums.length; j++) {
+            // If duplicate element is present at distance less than equal to k, return true...
+            if(!hset.add(nums[j])){
+                return true;
+            }
+            // If size of the Hash Set becomes greater than k...
+            if(hset.size() >= k+1){
+                // Remove the last visited element from the set...
+                hset.remove(nums[i++]);
+            }
         }
-        map.put(nums[i],i);
-       } 
-       return false;
+        // If no duplicate element is found then return false...
+        return false;
     }
 }
