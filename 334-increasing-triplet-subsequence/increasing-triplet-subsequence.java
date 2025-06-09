@@ -14,3 +14,9 @@ class Solution {
         return false;
     }
 }
+
+// first will store the smallest number seen so far.
+
+ // second will store the second smallest number seen after first.
+ // If the current number i is less than or equal to first, we update first.
+ // If the current number i is greater than first, but less than or equal to second, we update second.
