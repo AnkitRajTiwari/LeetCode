@@ -5,7 +5,8 @@ class Solution {
             return 0;
         }
         int res=0;
-        for(int i=0;i+2<s.length();i++)
+         //  checking 3 character at a time 
+        for(int i=0;i<=s.length()-3;i++)
         {
             char a =s.charAt(i);
              char b =s.charAt(i+1);
