@@ -5,6 +5,7 @@ class Solution {
         for(int x:nums){
             if(x<min) min=x;
         }
+        // x - min gives the number of times we need to increase min to become x
         for(int x:nums) moves=moves+x-min;
         return moves;
     }
