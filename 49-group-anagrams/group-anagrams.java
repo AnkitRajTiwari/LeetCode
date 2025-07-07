@@ -1,34 +1,36 @@
+// Define the class Solution
 class Solution {
-    boolean isAnagram(String first, String second){
-        if(first.length()!=second.length()){
-            return false;
-        }
-        char[] x=first.toCharArray();
-        char[]y=second.toCharArray();
-        Arrays.sort(x);
-        Arrays.sort(y);
-        return Arrays.equals(x,y);
-    }
+
+    // Method to group anagrams together from a list of strings
     public List<List<String>> groupAnagrams(String[] strs) {
-         List<List<String>> biglist= new ArrayList<>();
-         for(String word:strs)
-         {
-            boolean added=false;
-            for(List<String>smalllist:biglist)
-            {
-                if(isAnagram(smalllist.get(0),word)){
-                  smalllist.add(word);
-                  added=true;
-                  break;
-                }
+
+        // Create a HashMap where:
+        // - The key is the sorted version of the word (e.g., "aet" for "eat", "tea", "ate")
+        // - The value is a list of words (original strings) that are anagrams of that key
+        Map<String, List<String>> map = new HashMap<>();
+
+        // Loop through each string in the input array
+        for (String word : strs) {
+
+            // Convert the current word into a character array
+            char[] chars = word.toCharArray();
+
+            // Sort the character array alphabetically
+            Arrays.sort(chars);
+
+            // Convert the sorted char array back to a string (this acts as a unique key for anagrams)
+            String sortedWord = new String(chars);
+
+            // If this sorted key is not already in the map, add it with a new empty list
+            if (!map.containsKey(sortedWord)) {
+                map.put(sortedWord, new ArrayList<>());
             }
-            if(!added)
-            {
-                List<String>newsmall=new ArrayList<>();
-                newsmall.add(word);
-                biglist.add(newsmall);
-            }
-         }
-         return biglist;
+
+            // Add the original word to the list corresponding to the sorted key
+            map.get(sortedWord).add(word);
+        }
+
+        // Return all the values (lists of grouped anagrams) as a new ArrayList
+        return new ArrayList<>(map.values());
     }
 }
