@@ -2,9 +2,9 @@
 class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         // Base case...
-        if(nums == null || nums.length < 2 || k == 0)
+        if(nums == null  || k == 0)
             return false;
-        int i = 0;
+            int i=0;
         // Create a Hash Set for storing previous of k elements...
         HashSet<Integer> hset = new HashSet<Integer>();
         // Traverse for all elements of the given array in a for loop...
