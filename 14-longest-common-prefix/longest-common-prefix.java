@@ -9,7 +9,7 @@ class Solution
         {
             while (!strs[i].startsWith(prefix)) 
             {
-                if (prefix.isEmpty()) return "";
+               
                 prefix = prefix.substring(0, prefix.length() - 1);
             }
         }
