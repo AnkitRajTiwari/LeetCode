@@ -1,67 +1,41 @@
 class Solution {
-    static Set<Character> VOWELS = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
-    
-    Set<String> setActualWord;
-    Map<String, String> mapCaseInSensitiveWord;
-    Map<String, String> mapVowelInSensitiveWord;
-    
     public String[] spellchecker(String[] wordlist, String[] queries) {
-        setActualWord = new HashSet();
-        mapCaseInSensitiveWord = new HashMap();
-        mapVowelInSensitiveWord = new HashMap();
-        
-        for(String word : wordlist){
-            
-            //store the actual word
-            setActualWord.add(word);
-            
-            //store the lowercase word to first found word, 
-            String wordLowerCase = word.toLowerCase();
-            mapCaseInSensitiveWord.putIfAbsent(wordLowerCase, word);
-            
-            //replace the vowel in lowercase word with *,
-            //store the first word
-            String removedVowelWord = removeVowel(wordLowerCase);
-            mapVowelInSensitiveWord.putIfAbsent(removedVowelWord, word);
+        Set<String> exact = new HashSet<>(Arrays.asList(wordlist));
+        Map<String, String> caseMap = new HashMap<>();
+        Map<String, String> vowelMap = new HashMap<>();
+
+        for (String w : wordlist) {
+            String lower = toLower(w);
+            String devowel = deVowel(lower);
+            caseMap.putIfAbsent(lower, w);
+            vowelMap.putIfAbsent(devowel, w);
         }
-        
-        
-        String[] results = new String[queries.length];
-        
-        for(int i = 0; i < results.length; i++){
-            results[i] = search(queries[i]);
+        String[] result = new String[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            String q = queries[i];
+            if (exact.contains(q)) {
+                result[i] = q;
+            } else {
+                String lower = toLower(q);
+                String devowel = deVowel(lower);
+                if (caseMap.containsKey(lower)) result[i] = caseMap.get(lower);
+                else if (vowelMap.containsKey(devowel)) result[i] = vowelMap.get(devowel);
+                else result[i] = "";
+            }
         }
-        
-        return results;
+        return result;
     }
-    
-    private String search(String str){
-        
-        //return actual word, if found
-        if(setActualWord.contains(str)) return str;
-        
-        String strLowerCase = str.toLowerCase();
-        
-        //return first word, if it lower case word found
-        if(mapCaseInSensitiveWord.containsKey(strLowerCase)) 
-            return mapCaseInSensitiveWord.get(strLowerCase);
-        
-        //return first word, if it vowel in sensitive  word found of lower case 
-        String removedVowel = removeVowel(strLowerCase);
-        if(mapVowelInSensitiveWord.containsKey(removedVowel))
-            return mapVowelInSensitiveWord.get(removedVowel);
-        
-        //otherwise return empty string
-        return "";
+    private String toLower(String s) {
+        return s.toLowerCase();
     }
-    
-    private String removeVowel(String str){
-        StringBuilder sb = new StringBuilder();
-        
-        for(char c : str.toCharArray()){
-            sb.append(VOWELS.contains(c) ? '*' : c);
+    private String deVowel(String s) {
+        char[] ch = s.toCharArray();
+        for (int i = 0; i < ch.length; i++) {
+            if (isVowel(ch[i])) ch[i] = '*';
         }
-        
-        return sb.toString();
+        return new String(ch);
+    }
+    private boolean isVowel(char c) {
+        return "aeiou".indexOf(Character.toLowerCase(c)) >= 0;
     }
 }
