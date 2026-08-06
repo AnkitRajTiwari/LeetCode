@@ -1,23 +1,15 @@
 class Solution {
     public int[] occurrencesOfElement(int[] nums, int[] queries, int x) {
-        int l=nums.length;
-        // since we have to give the output in array format so we have to used the arraylist 
-        
-        List<Integer> list=new ArrayList<>();
-        for(int i=0;i<l;i++)
-        {
-            if(x==nums[i])
-            {
-                list.add(i);
-            }
-        }
-        l=queries.length;
-        int ans[]=new int[l];
-        for(int i=0;i<l;i++)
-        {
-            int val=queries[i];
-            ans[i]=val>list.size() ? -1:list.get(val-1);
-        }
-        return ans;
+        /////// since we have to find the index here so we have to use the IntStream
+       List<Integer> indexes = IntStream.range(0, nums.length)
+        .filter(i -> nums[i] == x)
+        .boxed()
+        .collect(Collectors.toList());
+
+int[] result = Arrays.stream(queries)
+        .map(q -> q <= indexes.size() ? indexes.get(q - 1) : -1)
+        .toArray();
+
+return result;
     }
 }
