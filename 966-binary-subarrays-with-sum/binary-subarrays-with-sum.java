@@ -1,21 +1,30 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        int count = 0;
-        int currSum = 0;
+        /////binary subarray with sum 
+        /// sliding window + k 
+        /// k=atmost(k)-atmost(k-1)
+       return atMost(nums,goal) - atMost(nums,goal-1);
+    }
 
-        for (int i = 0; i < nums.length; i++) {
-            currSum = 0;
+    public int atMost(int [] nums, int goal)
+    {
+        if(goal<0) return 0;
 
-            for (int j = i; j < nums.length; j++) {
-                currSum += nums[j];
+        int start=0;
+        int sum=0;
+        int answer=0;
+        for(int end=0; end<nums.length; end++)
+        {
+            // add
+            sum=sum+nums[end];
 
-                // Without ternary operator
-                if (currSum == goal) {
-                    count++;
-                }
+            while(sum>goal)
+            {
+                sum=sum-nums[start];
+                start++;
             }
+            answer=answer+end-start+1;
         }
-
-        return count;
+        return answer;
     }
 }
