@@ -1,34 +1,25 @@
 class Solution {
     public int numberOfSubstrings(String s) {
-        // Array to keep count of 'a', 'b', and 'c' in current window
-        int[] count = new int[3];
-        
-        // Left pointer for sliding window start
-        int left = 0;
-        
-        // Variable to store total valid substrings count
-        int result = 0;
-        
-        // Right pointer to expand the window through the string
-        for (int right = 0; right < s.length(); right++)
-         {
-            // Increment count of current character at index right
-            count[s.charAt(right) - 'a']++;
-            
-            // While window contains at least one of each 'a', 'b', and 'c'
-            while (count[0] > 0 && count[1] > 0 && count[2] > 0) {
-                // Add all substrings starting at 'left' and ending at or after 'right'
-                result += s.length() - right;
-                
-                // Shrink window from left by decrementing count of character at 'left'
-                count[s.charAt(left) - 'a']--;
-                
-                // Move left pointer forward to try smaller windows
-                left++;
+        //// sliding window +two pointer+freq count
+        int start=0;
+        int []count=new int[3];
+        int answer=0;
+        for(int end=0; end<s.length(); end++)
+        {
+            /// count 
+            char ch=s.charAt(end);
+            count[ch-'a']++;
+            /// if count quals
+            while(count[0]>0 && count[1]>0 && count[2]>0)
+            {     
+                  ///// // All substrings from start to end,
+                // extending end to the right, are valid
+                answer+= s.length()-end;
+                char chh=s.charAt(start);
+                count[chh-'a']--;
+                start++;
             }
         }
-        
-        // Return total count of substrings containing all three characters
-        return result;
+        return answer;
     }
 }
