@@ -1,22 +1,35 @@
 class Solution {
     public int numberOfSubarrays(int[] nums, int k) {
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] %= 2;
-        }
-        
-        int[] prefixCount = new int[nums.length + 1];
-        prefixCount[0] = 1;
-        int s = 0;
-        int ans = 0;
-        
-        for (int num : nums) {
-            s += num;
-            if (s >= k) {
-                ans += prefixCount[s - k];
+        //// same Sliding window +two pointers + exactly k 
+        /// k, k-1 techniques
+        int subarray= atMost(nums,k)- atMost(nums,k-1);
+        return subarray;
+    }
+
+    public int atMost(int[] nums, int k)
+    {
+
+        if(k<0) return 0;
+        int start=0;
+        int count=0;
+        int answer=0;
+        for(int end=0; end<nums.length; end++)
+        {
+            /// check
+            if(nums[end] %2 != 0)
+            {
+                count++;
             }
-            prefixCount[s]++;
+            /// else shrink
+            while(count>k) {
+                if(nums[start] %2 !=0)
+                {
+                count--;
+                }
+             start++;
+            }
+         answer= answer+ end-start+1;
         }
-        
-        return ans;
+        return answer ;
     }
 }
